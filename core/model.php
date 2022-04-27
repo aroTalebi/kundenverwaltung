@@ -32,6 +32,25 @@ class Model
         return $result;
     }
 
+    public static function tokenSet()
+    {
+        $token = base64_encode(md5(microtime()));
+        Model::sessionInit();
+        Model::sessionSet("token", $token);
+        return $token;
+    }
+
+    public static function sessionInit()
+    {
+        @session_start();
+    }
+
+    public static function sessionSet($name, $value)
+    {
+        session_regenerate_id();                                //a new Sassion 
+        $_SESSION[$name] = $value;
+    }
+
     // function doQuery($sql, $values = [])
     // {                                              //Insert into Table
     //     $stmt = self::$conn->prepare($sql);
@@ -106,16 +125,7 @@ class Model
     //     }
     // }
 
-    // public static function sessionInit()
-    // {
-    //     @session_start();
-    // }
-
-    // public static function sessionSet($name, $value)
-    // {
-    //     session_regenerate_id();                                //a new Sassion 
-    //     $_SESSION[$name] = $value;
-    // }
+    
 
     // public static function sessionGet($name)
     // {
@@ -131,13 +141,7 @@ class Model
     //     setcookie($name, $value, (time() + $expire), '/');
     // }
     // //SetToken
-    // public static function tokenSet()
-    // {
-    //     $token = base64_encode(md5(microtime()));
-    //     Model::sessionInit();
-    //     Model::sessionSet("token", $token);
-    //     return $token;
-    // }
+    
 
     // public static function tokenGet($formToken)
     // {
