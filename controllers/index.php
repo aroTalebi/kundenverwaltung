@@ -3,7 +3,8 @@ class Index extends Controller
 {
     function index()
     {
-        $this->view('index/index');
+        $personInfo = $this->model->getPersonInfo();
+        $values = [$personInfo];
+        $this->view('index/index', $values);
     }
-
 }
