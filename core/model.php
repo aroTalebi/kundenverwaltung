@@ -46,8 +46,7 @@ class Model
     }
 
     public static function sessionSet($name, $value)
-    {
-        //session_regenerate_id();                                //a new Sassion 
+    {                                                            //a new Sassion 
         $_SESSION[$name] = $value;
     }
 
@@ -74,7 +73,7 @@ class Model
     }
 
     function doQuery($sql, $values = [])
-    {                                              //Insert into Table
+    {                                                           //Insert into Table
         $stmt = self::$conn->prepare($sql);
         foreach ($values as $key => $values) {
             $stmt->bindValue($key + 1, $values);
@@ -95,80 +94,4 @@ class Model
             return false;
         }
     }
-
-    // function doUpdate($sql, $values = [], $fetchStyle = PDO::FETCH_ASSOC)
-    // {                 //Update Table
-    //     $stmt = self::$conn->prepare($sql);
-    //     foreach ($values as $key => $value) {
-    //         $stmt->bindValue($key + 1, $value);
-    //     }
-    //     $pdoExec = $stmt->execute();
-    //     if ($pdoExec) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-    // function DoExists($sql, $values = [], $fetch = '', $fetchStyle = PDO::FETCH_ASSOC)
-    // {
-    //     $stmt = self::$conn->prepare($sql);
-    //     foreach ($values as $key => $value) {
-    //         $stmt->bindValue($key + 1, $value);
-    //     }
-    //     $stmt->execute();
-    //     if ($fetch == '') {
-    //         $result = $stmt->fetchAll($fetchStyle);
-    //     } else {
-    //         $result = $stmt->fetch($fetchStyle);
-    //     }
-
-    //     if (sizeof($result) > 0) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-
-    // function validateEmail($email)                                   //text input remove from invalid charackter
-    // {
-    //     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //         return false;
-    //     } else {
-    //         return true;
-    //     }
-    // }
-
-    
-
-    // public static function sessionGet($name)
-    // {
-    //     if (isset($_SESSION[$name])) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    // //SetCookie 
-    // public static function cookieSet($name, $value, $expire)
-    // {
-    //     setcookie($name, $value, (time() + $expire), '/');
-    // }
-    // //SetToken
-    
-
-    // public static function checkAdmin($adminId)
-    // {
-    //     $sql = "SELECT * FROM user_tbl WHERE id=?";
-    //     $values = [$adminId];
-    //     $userInfo = $this->doSelect($sql, $values);
-    //     if (sizeof($userInfo) > 0) {
-    //         if ($userInfo['level'] == 1) {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     }
-    // }
 }

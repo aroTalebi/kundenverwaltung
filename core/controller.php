@@ -1,6 +1,6 @@
 <?php
 class Controller{
-    function view($viewUrl,$data=[],$noIncludeHeader='',$noIncludeFooter='')
+    function view($viewUrl,$data=[])
     {
         require('links.php');
         require('views/'.$viewUrl.'.php'); 
