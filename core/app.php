@@ -2,7 +2,7 @@
 class app
 {
     public $controller = 'index';       //Default Controller
-    public $method = 'index';           //Default Methode
+    public $method = 'home';           //Default Methode
     public $params = [];                //Data to methode
     //Router here beginn
     function __construct()

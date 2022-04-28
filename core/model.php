@@ -34,7 +34,7 @@ class Model
 
     public static function tokenSet()
     {
-        $token = base64_encode(md5(microtime()));
+        $token = time();
         Model::sessionInit();
         Model::sessionSet("token", $token);
         return $token;
@@ -47,32 +47,54 @@ class Model
 
     public static function sessionSet($name, $value)
     {
-        session_regenerate_id();                                //a new Sassion 
+        //session_regenerate_id();                                //a new Sassion 
         $_SESSION[$name] = $value;
     }
 
-    // function doQuery($sql, $values = [])
-    // {                                              //Insert into Table
-    //     $stmt = self::$conn->prepare($sql);
-    //     foreach ($values as $key => $values) {
-    //         $stmt->bindValue($key + 1, $values);
-    //     }
-    //     $pdoExec = $stmt->execute();
-    // }
+    public static function tokenGet($formToken)
+    {
+        Model::sessionInit();
+        if (isset($_SESSION['token'])) {
+            $sessionToken = $_SESSION['token'];
+            unset($_SESSION['token']);
+            if ($formToken == $sessionToken) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
-    // function doDelete($sql, $values = [], $fetch = '', $fetchStyle = PDO::FETCH_ASSOC)       //Delete from Table
-    // {
-    //     $stmt = self::$conn->prepare($sql);
-    //     foreach ($values as $key => $value) {
-    //         $stmt->bindValue($key + 1, $value);
-    //     }
-    //     $pdoExec = $stmt->execute();
-    //     if ($pdoExec) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
+    function validate($data)                                   //text input remove from invalid charackter
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    function doQuery($sql, $values = [])
+    {                                              //Insert into Table
+        $stmt = self::$conn->prepare($sql);
+        foreach ($values as $key => $values) {
+            $stmt->bindValue($key + 1, $values);
+        }
+        $pdoExec = $stmt->execute();
+    }
+
+    function doDelete($sql, $values = [], $fetch = '', $fetchStyle = PDO::FETCH_ASSOC)       //Delete from Table
+    {
+        $stmt = self::$conn->prepare($sql);
+        foreach ($values as $key => $value) {
+            $stmt->bindValue($key + 1, $value);
+        }
+        $pdoExec = $stmt->execute();
+        if ($pdoExec) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     // function doUpdate($sql, $values = [], $fetchStyle = PDO::FETCH_ASSOC)
     // {                 //Update Table
@@ -108,13 +130,6 @@ class Model
     //     }
     // }
 
-    // function validate($data)                                   //text input remove from invalid charackter
-    // {
-    //     $data = trim($data);
-    //     $data = stripslashes($data);
-    //     $data = htmlspecialchars($data);
-    //     return $data;
-    // }
 
     // function validateEmail($email)                                   //text input remove from invalid charackter
     // {
@@ -142,20 +157,6 @@ class Model
     // }
     // //SetToken
     
-
-    // public static function tokenGet($formToken)
-    // {
-    //     Model::sessionInit();
-    //     if (isset($_SESSION['token'])) {
-    //         $sessionToken = $_SESSION['token'];
-    //         unset($_SESSION['token']);
-    //         if ($formToken == $sessionToken) {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     }
-    // }
 
     // public static function checkAdmin($adminId)
     // {
