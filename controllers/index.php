@@ -7,7 +7,7 @@ class Index extends Controller
 
     function home()
     {
-        $personInfo = $this->model->getPersonInfo();
+        $personInfo = $this->model->getPersonInfo();    //get all person from Model
         $personCount = count($personInfo);
         $values = [$personInfo, '', '', $personCount];
         $this->view('index/home', $values);
